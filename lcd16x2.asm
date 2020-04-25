@@ -189,21 +189,21 @@ SEND_NIBBLE
  ; print string subroutine
  ;
 PRTSTR
-    CALL	GETSTR		;				  |B0
- 	ANDLW	b'01111111'	;				  |B0
- 	BTFSC	STATUS,Z	;end of string (00)?		  |B0
- 	RETURN			    ;yes, return			  |B0
- 	CALL	SEND_DATA	;else, send character		  |B0
- 	INCF	PTRL,f		;increment pointer lo		  |B0
- 	BTFSC	STATUS,Z	;FF to 00 transition?		  |B0
- 	INCF	PTRH,f		;yes, bump PTRH			  |B0
- 	GOTO	PRTSTR		;
+    CALL    GETSTR        ;                  |B0   
+    ANDLW    b'01111111'    ;                  |B0
+    BTFSC    STATUS,Z    ;end of string (00)?          |B0
+    RETURN                ;yes, return              |B0
+    CALL    SEND_DATA    ;else, send character          |B0
+    INCF    PTRL,f        ;increment pointer lo          |B0
+    BTFSC    STATUS,Z    ;FF to 00 transition?          |B0
+    INCF    PTRH,f        ;yes, bump PTRH              |B0
+    GOTO    PRTSTR        ;
  
 GETSTR
-    MOVF	PTRH,W		;				  |B0
- 	MOVWF	PCLATH		;				  |B0
- 	MOVF	PTRL,W		;				  |B0
- 	MOVWF	PCL		    ;this causes the jump into table  |B0
+    MOVF    PTRH,W        ;                  |B0
+    MOVWF    PCLATH        ;                  |B0
+    MOVF    PTRL,W        ;                  |B0
+    MOVWF    PCL            ;this causes the jump into table  |B0
     RETURN
 
 ;-------------------------------------------------------------------
@@ -250,30 +250,30 @@ INICIO:
 
     CALL    DISPLAY_INIT
 
-    MOVLW	HIGH STRING1    ;print string2 string		  |B0
- 	MOVWF	PTRH		    ;				  |B0
- 	MOVLW	LOW STRING1	    ;				  |B0
- 	MOVWF	PTRL		    ;				  |B0
- 	CALL	PRTSTR		    ;print the string		  |B0
+    MOVLW    HIGH STRING1    ;print string2 string          |B0
+    MOVWF    PTRH            ;                  |B0
+    MOVLW    LOW STRING1        ;                  |B0
+    MOVWF    PTRL            ;                  |B0
+    CALL    PRTSTR            ;print the string          |B0
 
     MOVLW   0xC0
     CALL    SEND_COMMAND
 
-    MOVLW	HIGH STRING2	    ;print string2 string		  |B0
- 	MOVWF	PTRH		    ;				  |B0
- 	MOVLW	LOW STRING2	    ;				  |B0
- 	MOVWF	PTRL		    ;				  |B0
- 	CALL	PRTSTR		    ;print the string		  |B0
+    MOVLW    HIGH STRING2        ;print string2 string          |B0
+    MOVWF    PTRH            ;                  |B0
+    MOVLW    LOW STRING2        ;                  |B0
+    MOVWF    PTRL            ;                  |B0
+    CALL    PRTSTR            ;print the string          |B0
 R3:
     NOP
     GOTO    R3
 
-STRING1	
-    dt	    "BRASIL 2020"
- 	dt	    0x00		    ;end-of-string
-STRING2	
-    dt	    "0123456789ABCDEF"
- 	dt	    0x00		    ;end-of-string
+STRING1    
+    dt        "BRASIL 2020"
+    dt        0x00            ;end-of-string
+STRING2    
+    dt        "0123456789ABCDEF"
+    dt        0x00            ;end-of-string
 
 ;-------------------------------------------------------------------
 ;                           END OF PROGRAM
